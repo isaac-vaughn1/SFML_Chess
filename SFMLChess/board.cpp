@@ -14,6 +14,7 @@ Board::Board(sf::RenderWindow& win, std::vector<sf::Sprite>& pieces, int squareS
 	blackBishops = 0x0000000000000024ULL;
 	blackQueens = 0x0000000000000008ULL;
 	blackKing = 0x0000000000000010ULL;
+	blackPieces = 0x000000000000FFFFULL;
 
 	// white pieces
 	whitePawns = 0x00FF000000000000ULL;
@@ -22,6 +23,7 @@ Board::Board(sf::RenderWindow& win, std::vector<sf::Sprite>& pieces, int squareS
 	whiteBishops = 0x2400000000000000ULL;
 	whiteQueens = 0x0800000000000000ULL;
 	whiteKing = 0x1000000000000000ULL;
+	whitePieces = 0xFFFF000000000000ULL;
 
 	allPieces = 0xFFFF00000000FFFFULL;
 
