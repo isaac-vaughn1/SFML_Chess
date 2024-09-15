@@ -14,6 +14,7 @@ public:
 
 
 private:
+	Bitboard whitePieces;
 	Bitboard whitePawns;
 	Bitboard whiteRooks;
 	Bitboard whiteKnights;
@@ -21,7 +22,7 @@ private:
 	Bitboard whiteQueens;
 	Bitboard whiteKing;
 
-
+	Bitboard blackPieces;
 	Bitboard blackPawns;
 	Bitboard blackRooks;
 	Bitboard blackKnights;

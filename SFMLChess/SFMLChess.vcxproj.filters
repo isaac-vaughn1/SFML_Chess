@@ -24,12 +24,51 @@
     <ClCompile Include="board.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="pawn.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rook.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="knight.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="bishop.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="queen.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="king.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="window.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="board.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="piece.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="pawn.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rook.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="knight.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bishop.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="queen.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="king.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
