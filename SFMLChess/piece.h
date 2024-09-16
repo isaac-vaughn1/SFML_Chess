@@ -11,11 +11,11 @@ public:
     Color color;
 
 
-    Piece(Color c) : color(c) {}
+    Piece(Color color) : color(color) {}
 
-    virtual Bitboard generateMoves(Bitboard occupiedSquares) = 0;
+    virtual Bitboard generatemoves(Bitboard occupiedSquares, int pieceIndex) = 0;
 
     virtual ~Piece() {}
 };
 
-#endif
+#endif  // PIECE_H
