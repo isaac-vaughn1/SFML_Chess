@@ -10,7 +10,7 @@ class Queen : public Piece {
 public:
     Queen(Color color);
 
-    Bitboard generatemoves(Bitboard occupiedSquares, int pieceIndex) override;
+    Bitboard generatemoves(Bitboard& occupiedSquares, int pieceIndex) override;
 };
 
 #endif  // QUEEN_H

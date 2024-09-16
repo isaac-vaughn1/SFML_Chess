@@ -10,7 +10,7 @@ class Rook : public Piece {
 public:
     Rook(Color color);
 
-    Bitboard generatemoves(Bitboard occupiedSquares, int pieceIndex) override;
+    Bitboard generatemoves(Bitboard& occupiedSquares, int pieceIndex) override;
 };
 
 #endif  // ROOK_H

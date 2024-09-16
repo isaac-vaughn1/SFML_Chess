@@ -6,7 +6,7 @@
 
 
 Board::Board(sf::RenderWindow& win, std::vector<sf::Sprite>& pieces, int squareSize)
-	: squareSize(squareSize), window(win), pieces(pieces), clickstate(NONE) {
+	: squareSize(squareSize), playerTurn(WHITE), window(win), pieces(pieces), clickstate(NONE) {
 	// black pieces
 	blackPawns = 0x000000000000FF00ULL;
 	blackRooks = 0x0000000000000081ULL;
@@ -79,10 +79,9 @@ void Board::handleclick(sf::Vector2i clickCoords) {
 		int oldIndex = coordstobitindex(std::make_pair(firstClick.first / squareSize, firstClick.second / squareSize));
 		int newIndex = coordstobitindex(std::make_pair(clickCoords.x / squareSize, clickCoords.y / squareSize));
 
-		if (pieceexists(oldIndex)) {
-			Bitboard& piece = findpiece(oldIndex);
-			shiftbitboard(piece, oldIndex, newIndex);
-			shiftbitboard(allPieces, oldIndex, newIndex);
+		if (pieceexists(oldIndex) && oldIndex != newIndex) {
+			Bitboard& pieceBoard = findpiece(oldIndex);
+			shiftbitboard(pieceBoard, oldIndex, newIndex);
 			movesprite(std::make_pair(firstClick.first, firstClick.second), std::make_pair(clickCoords.x, clickCoords.y));
 		}
 	}
@@ -97,7 +96,15 @@ int Board::coordstobitindex(std::pair<int, int> coords) {
 bool Board::pieceexists(int index) {
 	Bitboard source = (1ULL << index);
 
-	return (allPieces & source) != 0;
+	if (playerTurn == WHITE) {
+		return ((whitePieces & source) != 0);
+	}
+
+	else if (playerTurn == BLACK) {
+		return (blackPieces & source) != 0;
+	}
+	
+	return false;
 }
 
 Bitboard& Board::findpiece(int index) {
@@ -120,6 +127,18 @@ void Board::shiftbitboard(Bitboard& piece, int oldIndex, int newIndex) {
 
 	allPieces &= ~oldLocation;
 	allPieces |= newLocation;
+
+	if (playerTurn == WHITE) {
+		playerTurn = BLACK;
+		whitePieces &= ~oldLocation;
+		whitePieces |= newLocation;
+	}
+
+	else if (playerTurn == BLACK) {
+		playerTurn = WHITE;
+		blackPieces &= ~oldLocation;
+		blackPieces |= newLocation;
+	}
 
 	return;
 }
