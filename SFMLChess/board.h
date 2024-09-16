@@ -34,6 +34,8 @@ private:
 
 	Bitboard boards[12];
 
+	enum Color { WHITE, BLACK };
+	Color playerTurn;
 	enum ClickState { NONE, FIRST_CLICK };
 	ClickState clickstate;
 	sf::RenderWindow& window;

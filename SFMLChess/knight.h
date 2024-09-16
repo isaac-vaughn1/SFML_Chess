@@ -10,7 +10,7 @@ class Knight : public Piece {
 public:
     Knight(Color color);
 
-    Bitboard generatemoves(Bitboard occupiedSquares, int pieceIndex) override;
+    Bitboard generatemoves(Bitboard& occupiedSquares, int pieceIndex) override;
 };
 
 #endif  // KNIGHT_H

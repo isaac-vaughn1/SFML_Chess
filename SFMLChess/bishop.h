@@ -10,7 +10,7 @@ class Bishop : public Piece {
 public:
     Bishop(Color color);
 
-    Bitboard generatemoves(Bitboard occupiedSquares, int pieceIndex) override;
+    Bitboard generatemoves(Bitboard& occupiedSquares, int pieceIndex) override;
 };
 
 #endif  // BISHOP_H
