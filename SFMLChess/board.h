@@ -2,6 +2,13 @@
 #define BOARD_H
 
 #include <SFML/Graphics.hpp>
+#include "common.h"
+#include "pawn.h"
+#include "rook.h"
+#include "knight.h"
+#include "bishop.h"
+#include "queen.h"
+#include "king.h"
 #include <vector>
 #include <utility>
 
@@ -14,6 +21,13 @@ public:
 
 
 private:
+	Pawn pawn;
+	Rook rook;
+	Knight knight;
+	Bishop bishop;
+	Queen queen;
+	King king;
+
 	Bitboard whitePieces;
 	Bitboard whitePawns;
 	Bitboard whiteRooks;
@@ -34,7 +48,6 @@ private:
 
 	Bitboard boards[12];
 
-	enum Color { WHITE, BLACK };
 	Color playerTurn;
 	enum ClickState { NONE, FIRST_CLICK };
 	ClickState clickstate;
@@ -47,7 +60,8 @@ private:
 	void handleclick(sf::Vector2i clickCoords);
 	int coordstobitindex(std::pair<int, int> coords);
 	bool pieceexists(int index);
-	Bitboard& findpiece(int index);
+	Bitboard& findpiecebitboard(int index);
+	Piece* findpiecetype(int index);
 	void shiftbitboard(Bitboard& piece, int oldIndex, int newIndex);
 	void movesprite(std::pair<int, int> oldCoords, std::pair<int, int> newCoords);
 };

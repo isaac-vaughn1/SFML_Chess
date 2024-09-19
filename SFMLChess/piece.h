@@ -2,16 +2,21 @@
 #define PIECE_H
 
 #include <cstdint>
-
-enum Color { WHITE, BLACK };
+#include "common.h"
+ 
 using Bitboard = uint64_t;
 
 class Piece {
-
-public:
+protected:
     Color color;
 
+public:
+
     Piece(Color color) : color(color) {}
+
+    void setColor(Color newColor) {
+        color = newColor;
+    }
 
     virtual Bitboard generatemoves(Bitboard& occupiedSquares, int pieceIndex) = 0;
 
