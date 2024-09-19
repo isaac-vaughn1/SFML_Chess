@@ -8,7 +8,7 @@ using Bitboard = uint64_t;
 
 class Knight : public Piece {
 public:
-    Knight(Color color);
+    Knight();
 
     Bitboard generatemoves(Bitboard& occupiedSquares, int pieceIndex) override;
 };

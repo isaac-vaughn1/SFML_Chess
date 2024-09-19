@@ -7,7 +7,7 @@
 
 class Pawn : public Piece {
 public:
-    Pawn(Color color);
+    Pawn();
 
     Bitboard generatemoves(Bitboard& occupiedSquares, int pieceIndex) override;
     Bitboard generateattacks(Bitboard& occupiedSquares, int pieceIndex);

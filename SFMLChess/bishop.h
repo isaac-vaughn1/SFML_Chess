@@ -8,7 +8,7 @@ using Bitboard = uint64_t;
 
 class Bishop : public Piece {
 public:
-    Bishop(Color color);
+    Bishop();
 
     Bitboard generatemoves(Bitboard& occupiedSquares, int pieceIndex) override;
 };

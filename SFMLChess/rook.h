@@ -8,7 +8,7 @@ using Bitboard = uint64_t;
 
 class Rook : public Piece {
 public:
-    Rook(Color color);
+    Rook();
 
     Bitboard generatemoves(Bitboard& occupiedSquares, int pieceIndex) override;
 };
