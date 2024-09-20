@@ -9,7 +9,7 @@ class Pawn : public Piece {
 public:
     Pawn();
 
-    Bitboard generatemoves(Bitboard& occupiedSquares, int pieceIndex) override;
+    Bitboard generatemoves(Bitboard& allySquares, Bitboard& enemySquares, int pieceIndex) override;
     Bitboard generateattacks(Bitboard& occupiedSquares, int pieceIndex);
 };
 
