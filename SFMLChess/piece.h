@@ -4,7 +4,6 @@
 #include <cstdint>
 #include "common.h"
  
-using Bitboard = uint64_t;
 
 class Piece {
 protected:
@@ -18,7 +17,7 @@ public:
         color = newColor;
     }
 
-    virtual Bitboard generatemoves(Bitboard& occupiedSquares, int pieceIndex) = 0;
+    virtual Bitboard generatemoves(Bitboard& allySquares, Bitboard& enemySquares, int pieceIndex) = 0;
 
     virtual ~Piece() {}
 };

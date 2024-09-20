@@ -12,7 +12,6 @@
 #include <vector>
 #include <utility>
 
-using Bitboard = uint64_t;
 
 class Board {
 public:

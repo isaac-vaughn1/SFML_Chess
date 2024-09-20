@@ -10,7 +10,7 @@ class King : public Piece {
 public:
     King();
 
-    Bitboard generatemoves(Bitboard& occupiedSquares, int pieceIndex) override;
+    Bitboard generatemoves(Bitboard& allySquares, Bitboard& enemySquares, int pieceIndex) override;
 };
 
 #endif  // KING_H

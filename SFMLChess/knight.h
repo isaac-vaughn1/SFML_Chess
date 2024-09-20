@@ -10,7 +10,7 @@ class Knight : public Piece {
 public:
     Knight();
 
-    Bitboard generatemoves(Bitboard& occupiedSquares, int pieceIndex) override;
+    Bitboard generatemoves(Bitboard& allySquares, Bitboard& enemySquares, int pieceIndex) override;
 };
 
 #endif  // KNIGHT_H

@@ -89,6 +89,13 @@ void Board::handleclick(sf::Vector2i clickCoords) {
 			Piece* pieceType = findpiecetype(oldIndex);
 			pieceType->setColor(playerTurn);
 
+			/*if (playerTurn == WHITE) {
+				Bitboard potentialMoves = pieceType->generatemoves(whitePieces, blackPieces, oldIndex);
+			}
+			else {
+				Bitboard potentialMoves = pieceType->generatemoves(blackPieces, whitePieces, oldIndex);
+			}*/
+
 			// incorporate moveIsValid() function somewhere here before moving the piece
 			shiftbitboard(pieceBoard, oldIndex, newIndex); 
 			movesprite(std::make_pair(firstClick.first, firstClick.second), std::make_pair(clickCoords.x, clickCoords.y));
@@ -179,14 +186,20 @@ void Board::shiftbitboard(Bitboard& piece, int oldIndex, int newIndex) {
 	return;
 }
 
-void Board::movesprite(std::pair<int, int> oldCoords, std::pair<int, int> newCoords) {
+void Board::movesprite(std::pair<int, int> oldCoords, std::pair<int, int> newCoords) {  // Future Self: this isn't updating BB's when a capture occurs that's why everything is funky rn
 	float oldX = static_cast<float>(oldCoords.first);
 	float oldY = static_cast<float>(oldCoords.second);
+	float tempX = static_cast<float>(newCoords.first);
+	float tempY = static_cast<float>(newCoords.second);
 
 	int newX = newCoords.first / squareSize;
 	int newY = newCoords.second / squareSize;
 
 	for (auto& piece : pieces) {  // search all sprites for the one containing the old coords and move it to the new coords
+		if (piece.getGlobalBounds().contains(tempX, tempY)) {
+			piece.setPosition(-100, -100);
+			//break;
+		}
 		if (piece.getGlobalBounds().contains(oldX, oldY)) {
 			piece.setPosition(newX * squareSize, newY * squareSize);
 			break;
