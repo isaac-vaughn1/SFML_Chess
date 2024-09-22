@@ -5,5 +5,13 @@ King::King() : Piece(color) {
 }
 
 Bitboard King::generatemoves(Bitboard& allySquares, Bitboard& enemySquares, int pieceIndex) {
-	return 0ULL;
+	Bitboard location = (1ULL << pieceIndex);
+	Bitboard moves = 0;
+
+	moves = (location >> 1 | location >> 7 | location >> 8 | location >> 9
+		     | location << 1 | location << 7 | location << 8 | location << 9);
+
+	moves &= ~allySquares;
+
+	return moves;
 }
