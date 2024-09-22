@@ -110,7 +110,7 @@ void Board::handleclick(sf::Vector2i clickCoords) {
 }
 
 int Board::coordstobitindex(std::pair<int, int> coords) {
-	// we do y * 8 + x instead of  x * 8 + y because of the way we generated the board (0,0 is the top left instead of bottom left)
+	// we do y * 8 + x instead of  x * 8 + y because of the way we generated the board (0,0 is the top left instead of bottom left and now we're in too deep)
 	return coords.second * 8 + coords.first;
 }
 
