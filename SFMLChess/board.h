@@ -59,6 +59,7 @@ private:
 	void handleclick(sf::Vector2i clickCoords);
 	int coordstobitindex(std::pair<int, int> coords);
 	bool pieceexists(int index);
+	bool moveIsValid(Bitboard moves, int moveIndex);
 	Bitboard& findpiecebitboard(int index);
 	Piece* findpiecetype(int index);
 	void shiftbitboard(Bitboard& piece, int oldIndex, int newIndex);
