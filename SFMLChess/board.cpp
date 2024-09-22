@@ -78,6 +78,8 @@ void Board::handleclick(sf::Vector2i clickCoords) {
 	else if (clickstate == FIRST_CLICK) {
 		clickstate = NONE;
 
+		Bitboard potentialMoves = 0;
+
 		// get the bit index from the coordinates of our first and second click
 		int oldIndex = coordstobitindex(std::make_pair(firstClick.first / squareSize, firstClick.second / squareSize));  
 		int newIndex = coordstobitindex(std::make_pair(clickCoords.x / squareSize, clickCoords.y / squareSize));
@@ -89,16 +91,18 @@ void Board::handleclick(sf::Vector2i clickCoords) {
 			Piece* pieceType = findpiecetype(oldIndex);
 			pieceType->setColor(playerTurn);
 
-			/*if (playerTurn == WHITE) {
-				Bitboard potentialMoves = pieceType->generatemoves(whitePieces, blackPieces, oldIndex);
+			if (playerTurn == WHITE) {
+				potentialMoves = pieceType->generatemoves(whitePieces, blackPieces, oldIndex);
 			}
 			else {
-				Bitboard potentialMoves = pieceType->generatemoves(blackPieces, whitePieces, oldIndex);
-			}*/
+				potentialMoves = pieceType->generatemoves(blackPieces, whitePieces, oldIndex);
+			}
 
-			// incorporate moveIsValid() function somewhere here before moving the piece
-			shiftbitboard(pieceBoard, oldIndex, newIndex); 
-			movesprite(std::make_pair(firstClick.first, firstClick.second), std::make_pair(clickCoords.x, clickCoords.y));
+			// bitboard and sprite shifts if we have a valid move
+			if (moveIsValid(potentialMoves, newIndex)) {
+				shiftbitboard(pieceBoard, oldIndex, newIndex);
+				movesprite(std::make_pair(firstClick.first, firstClick.second), std::make_pair(clickCoords.x, clickCoords.y));
+			}
 		}
 	}
 
@@ -124,8 +128,17 @@ bool Board::pieceexists(int index) {
 	return false;
 }
 
+bool Board::moveIsValid(Bitboard moves, int moveIndex) {
+	Bitboard chosenMove = (1ULL << moveIndex);
+
+	if ((chosenMove & moves) != 0)
+		return true;
+
+	return false;
+}
+
 Bitboard& Board::findpiecebitboard(int index) {
-	Bitboard location = (1Ull << index);  // convert the old bit index into a bitboard with only that index filled
+	Bitboard location = (1ULL << index);  // convert the old bit index into a bitboard with only that index filled
 
 	for (Bitboard& board : boards) {  // loop through all of the piece bitboards looking for one containing the index
 		if ((board & location) != 0)
@@ -168,9 +181,6 @@ void Board::shiftbitboard(Bitboard& piece, int oldIndex, int newIndex) {
 	piece &= ~oldLocation;
 	piece |= newLocation;
 
-	allPieces &= ~oldLocation;
-	allPieces |= newLocation;
-
 	if (playerTurn == WHITE) {
 		playerTurn = BLACK;
 		whitePieces &= ~oldLocation;
@@ -182,6 +192,9 @@ void Board::shiftbitboard(Bitboard& piece, int oldIndex, int newIndex) {
 		blackPieces &= ~oldLocation;
 		blackPieces |= newLocation;
 	}
+
+	allPieces &= ~oldLocation;
+	allPieces = whitePieces | blackPieces;
 
 	return;
 }
@@ -198,11 +211,9 @@ void Board::movesprite(std::pair<int, int> oldCoords, std::pair<int, int> newCoo
 	for (auto& piece : pieces) {  // search all sprites for the one containing the old coords and move it to the new coords
 		if (piece.getGlobalBounds().contains(tempX, tempY)) {
 			piece.setPosition(-100, -100);
-			//break;
 		}
 		if (piece.getGlobalBounds().contains(oldX, oldY)) {
 			piece.setPosition(newX * squareSize, newY * squareSize);
-			break;
 		}
 	}
 
