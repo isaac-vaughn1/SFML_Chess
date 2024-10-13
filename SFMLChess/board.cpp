@@ -7,7 +7,7 @@
 
 Board::Board(sf::RenderWindow& win, std::vector<sf::Sprite>& pieces, int squareSize)
 	: squareSize(squareSize), playerTurn(WHITE), window(win), pieces(pieces), clickstate(NONE) {
-	// black pieces
+	// initialize black pieces
 	blackPawns = 0x000000000000FF00ULL;
 	blackRooks = 0x0000000000000081ULL;
 	blackKnights = 0x0000000000000042ULL;
@@ -16,7 +16,7 @@ Board::Board(sf::RenderWindow& win, std::vector<sf::Sprite>& pieces, int squareS
 	blackKing = 0x0000000000000010ULL;
 	blackPieces = 0x000000000000FFFFULL;
 
-	// white pieces
+	// initialize white pieces
 	whitePawns = 0x00FF000000000000ULL;
 	whiteRooks = 0x8100000000000000ULL;
 	whiteKnights = 0x4200000000000000ULL;
@@ -53,7 +53,7 @@ void Board::update() {
 
 		case (sf::Event::MouseButtonPressed):
 			if (event.mouseButton.button == sf::Mouse::Left) {
-				handleclick(sf::Mouse::getPosition(window));  // handle click if left mouse button is pressed
+				handle_click(sf::Mouse::getPosition(window));  // handle click if left mouse button is pressed
 			}
 			break;
 		}
@@ -66,7 +66,7 @@ void Board::update() {
 
 }
 
-void Board::handleclick(sf::Vector2i clickCoords) {
+void Board::handle_click(sf::Vector2i clickCoords) {
 	// runs on our first click
 	if (clickstate == NONE) {
 		clickstate = FIRST_CLICK;
@@ -81,27 +81,27 @@ void Board::handleclick(sf::Vector2i clickCoords) {
 		Bitboard potentialMoves = 0;
 
 		// get the bit index from the coordinates of our first and second click
-		int oldIndex = coordstobitindex(std::make_pair(firstClick.first / squareSize, firstClick.second / squareSize));  
-		int newIndex = coordstobitindex(std::make_pair(clickCoords.x / squareSize, clickCoords.y / squareSize));
+		int oldIndex = coords_to_bit_index(std::make_pair(firstClick.first / squareSize, firstClick.second / squareSize));  
+		int newIndex = coords_to_bit_index(std::make_pair(clickCoords.x / squareSize, clickCoords.y / squareSize));
 
 
-		if (pieceexists(oldIndex) && oldIndex != newIndex) {  // -----THIS NEEDS TO CHANGE TO INCORPORATE PIECE-SPECIFIC MOVEMENT------------
+		if (piece_exists(oldIndex) && oldIndex != newIndex) {
 			// find the bitboard where our piece lies and shift it
-			Bitboard& pieceBoard = findpiecebitboard(oldIndex);
-			Piece* pieceType = findpiecetype(oldIndex);
+			Bitboard& pieceBoard = find_piece_bitboard(oldIndex);
+			Piece* pieceType = find_piece_type(oldIndex);
 			pieceType->setColor(playerTurn);
 
 			if (playerTurn == WHITE) {
-				potentialMoves = pieceType->generatemoves(whitePieces, blackPieces, oldIndex);
+				potentialMoves = pieceType->generate_moves(whitePieces, blackPieces, oldIndex);
 			}
 			else {
-				potentialMoves = pieceType->generatemoves(blackPieces, whitePieces, oldIndex);
+				potentialMoves = pieceType->generate_moves(blackPieces, whitePieces, oldIndex);
 			}
 
 			// bitboard and sprite shifts if we have a valid move
-			if (moveIsValid(potentialMoves, newIndex)) {
-				shiftbitboard(pieceBoard, oldIndex, newIndex);
-				movesprite(std::make_pair(firstClick.first, firstClick.second), std::make_pair(clickCoords.x, clickCoords.y));
+			if (move_is_valid(potentialMoves, newIndex)) {
+				shift_bitboard(pieceBoard, oldIndex, newIndex);
+				move_sprite(std::make_pair(firstClick.first, firstClick.second), std::make_pair(clickCoords.x, clickCoords.y));
 			}
 		}
 	}
@@ -109,12 +109,12 @@ void Board::handleclick(sf::Vector2i clickCoords) {
 	return;
 }
 
-int Board::coordstobitindex(std::pair<int, int> coords) {
+int Board::coords_to_bit_index(std::pair<int, int> coords) {
 	// we do y * 8 + x instead of  x * 8 + y because of the way we generated the board (0,0 is the top left instead of bottom left and now we're in too deep)
 	return coords.second * 8 + coords.first;
 }
 
-bool Board::pieceexists(int index) {
+bool Board::piece_exists(int index) {
 	Bitboard source = (1ULL << index);  // convert the old bit index into a bitboard with only that index filled
 
 	if (playerTurn == WHITE) {
@@ -128,7 +128,7 @@ bool Board::pieceexists(int index) {
 	return false;
 }
 
-bool Board::moveIsValid(Bitboard moves, int moveIndex) {
+bool Board::move_is_valid(Bitboard moves, int moveIndex) {
 	Bitboard chosenMove = (1ULL << moveIndex);
 
 	if ((chosenMove & moves) != 0)
@@ -137,7 +137,7 @@ bool Board::moveIsValid(Bitboard moves, int moveIndex) {
 	return false;
 }
 
-Bitboard& Board::findpiecebitboard(int index) {
+Bitboard& Board::find_piece_bitboard(int index) {
 	Bitboard location = (1ULL << index);  // convert the old bit index into a bitboard with only that index filled
 
 	for (Bitboard& board : boards) {  // loop through all of the piece bitboards looking for one containing the index
@@ -148,7 +148,7 @@ Bitboard& Board::findpiecebitboard(int index) {
 	throw std::runtime_error("Piece not found at the specified index!");
 }
 
-Piece* Board::findpiecetype(int index) {
+Piece* Board::find_piece_type(int index) {
 	Bitboard location = (1ULL << index);
 
 	if ((boards[0] & location) != 0 || (boards[6] & location) != 0) {
@@ -173,7 +173,7 @@ Piece* Board::findpiecetype(int index) {
 	throw std::runtime_error("Piece not found at the specified index!");
 }
 
-void Board::shiftbitboard(Bitboard& piece, int oldIndex, int newIndex) {
+void Board::shift_bitboard(Bitboard& piece, int oldIndex, int newIndex) {
 	// remove the bit from the old index and fill the bit in the new index for all pieces, the piece's bitboard, and the corresponding color bitboard
 	Bitboard oldLocation = (1ULL << oldIndex);
 	Bitboard newLocation = (1ULL << newIndex);
@@ -199,7 +199,7 @@ void Board::shiftbitboard(Bitboard& piece, int oldIndex, int newIndex) {
 	return;
 }
 
-void Board::movesprite(std::pair<int, int> oldCoords, std::pair<int, int> newCoords) {  // Future Self: this isn't updating BB's when a capture occurs that's why everything is funky rn
+void Board::move_sprite(std::pair<int, int> oldCoords, std::pair<int, int> newCoords) {  // Future Self: this isn't updating BB's when a capture occurs that's why everything is funky rn
 	float oldX = static_cast<float>(oldCoords.first);
 	float oldY = static_cast<float>(oldCoords.second);
 	float tempX = static_cast<float>(newCoords.first);

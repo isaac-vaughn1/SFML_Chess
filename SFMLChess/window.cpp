@@ -5,11 +5,11 @@
 Window::Window() : squareSize(100) {
     lightSquareColor = sf::Color(240, 217, 181); // Hex: #f0d9b5 (beige)
     darkSquareColor = sf::Color(181, 136, 99);   // Hex: #b58863 (light brown)
-    loadTextures();
-    setupPieces();
+    load_textures();
+    setup_pieces();
 }
 
-void Window::loadTextures() {
+void Window::load_textures() {
     // Load textures for all pieces (handle errors as necessary)
     if (!blackKingTexture.loadFromFile("resources/blackKing.png") ||
         !blackQueenTexture.loadFromFile("resources/blackQueen.png") ||
@@ -27,7 +27,7 @@ void Window::loadTextures() {
     }
 }
 
-void Window::setupPieces() {
+void Window::setup_pieces() {
     // Black pieces
     pieces.emplace_back(blackKingTexture);    pieces.back().setPosition(4 * squareSize, 0 * squareSize); // Black King on e8
     pieces.emplace_back(blackQueenTexture);   pieces.back().setPosition(3 * squareSize, 0 * squareSize); // Black Queen on d8
@@ -66,7 +66,7 @@ void Window::setupPieces() {
 }
 
 
-void Window::drawBoard(sf::RenderWindow& window) {
+void Window::draw_board(sf::RenderWindow& window) {
     for (int row = 0; row < 8; ++row) {
         for (int col = 0; col < 8; ++col) {
             sf::RectangleShape square(sf::Vector2f(squareSize, squareSize));
@@ -80,7 +80,7 @@ void Window::drawBoard(sf::RenderWindow& window) {
     }
 }
 
-void Window::drawPieces(sf::RenderWindow& window) {
+void Window::draw_pieces(sf::RenderWindow& window) {
     for (const auto& piece : pieces) {
         window.draw(piece);
     }
@@ -93,7 +93,7 @@ void Window::run() {
     while (window.isOpen()) {
 
         window.clear();
-        drawBoard(window);
+        draw_board(window);
         board.update();
         window.display();
     }

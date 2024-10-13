@@ -4,7 +4,7 @@ Knight::Knight() : Piece(color) {
 
 }
 
-Bitboard Knight::generatemoves(Bitboard& allySquares, Bitboard& enemySquares, int pieceIndex) {  // still requires board wrap prevention
+Bitboard Knight::generate_moves(Bitboard& allySquares, Bitboard& enemySquares, int pieceIndex) {  // still requires board wrap prevention
 	Bitboard location = (1ULL << pieceIndex);
 	Bitboard moves = 0;
 	

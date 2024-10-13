@@ -4,7 +4,7 @@ King::King() : Piece(color) {
 
 }
 
-Bitboard King::generatemoves(Bitboard& allySquares, Bitboard& enemySquares, int pieceIndex) {
+Bitboard King::generate_moves(Bitboard& allySquares, Bitboard& enemySquares, int pieceIndex) {  // still need piece wrapping prevention
 	Bitboard location = (1ULL << pieceIndex);
 	Bitboard moves = 0;
 

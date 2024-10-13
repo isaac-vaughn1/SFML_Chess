@@ -1,9 +1,12 @@
 #include "bishop.h"
+#include "magic.h"
 
 Bishop::Bishop() : Piece(color) {
 
 }
 
-Bitboard Bishop::generatemoves(Bitboard& allySquares, Bitboard& enemySquares, int pieceIndex) {
-	return 0ULL;
+Bitboard Bishop::generate_moves(Bitboard& allySquares, Bitboard& enemySquares, int pieceIndex) {
+	init_sliders_attacks(1, (enemySquares | allySquares));
+
+	return get_bishop_attacks(pieceIndex, (enemySquares | allySquares));
 }

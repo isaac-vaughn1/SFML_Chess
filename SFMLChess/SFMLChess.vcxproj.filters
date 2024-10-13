@@ -42,6 +42,9 @@
     <ClCompile Include="king.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="magic.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="window.h">
@@ -72,6 +75,9 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="common.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="magic.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

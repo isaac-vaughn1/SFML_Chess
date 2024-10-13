@@ -10,10 +10,10 @@ public:
     void run();
 
 private:
-    void drawBoard(sf::RenderWindow& window);
-    void drawPieces(sf::RenderWindow& window);
-    void loadTextures();
-    void setupPieces();
+    void draw_board(sf::RenderWindow& window);
+    void draw_pieces(sf::RenderWindow& window);
+    void load_textures();
+    void setup_pieces();
 
     int squareSize;
     sf::Color lightSquareColor, darkSquareColor;

@@ -1,9 +1,8 @@
 #ifndef PIECE_H
 #define PIECE_H
 
-#include <cstdint>
 #include "common.h"
- 
+#include <cstdint>
 
 class Piece {
 protected:
@@ -17,7 +16,7 @@ public:
         color = newColor;
     }
 
-    virtual Bitboard generatemoves(Bitboard& allySquares, Bitboard& enemySquares, int pieceIndex) = 0;
+    virtual Bitboard generate_moves(Bitboard& allySquares, Bitboard& enemySquares, int pieceIndex) = 0;
 
     virtual ~Piece() {}
 };
