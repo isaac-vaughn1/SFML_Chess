@@ -56,14 +56,14 @@ private:
 
 	int squareSize;
 
-	void handleclick(sf::Vector2i clickCoords);
-	int coordstobitindex(std::pair<int, int> coords);
-	bool pieceexists(int index);
-	bool moveIsValid(Bitboard moves, int moveIndex);
-	Bitboard& findpiecebitboard(int index);
-	Piece* findpiecetype(int index);
-	void shiftbitboard(Bitboard& piece, int oldIndex, int newIndex);
-	void movesprite(std::pair<int, int> oldCoords, std::pair<int, int> newCoords);
+	void handle_click(sf::Vector2i clickCoords);
+	int coords_to_bit_index(std::pair<int, int> coords);
+	bool piece_exists(int index);
+	bool move_is_valid(Bitboard moves, int moveIndex);
+	Bitboard& find_piece_bitboard(int index);
+	Piece* find_piece_type(int index);
+	void shift_bitboard(Bitboard& piece, int oldIndex, int newIndex);
+	void move_sprite(std::pair<int, int> oldCoords, std::pair<int, int> newCoords);
 };
 
 #endif // BOARD_H

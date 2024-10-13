@@ -137,6 +137,7 @@
     <ClCompile Include="board.cpp" />
     <ClCompile Include="king.cpp" />
     <ClCompile Include="knight.cpp" />
+    <ClCompile Include="magic.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="pawn.cpp" />
     <ClCompile Include="queen.cpp" />
@@ -149,6 +150,7 @@
     <ClInclude Include="common.h" />
     <ClInclude Include="king.h" />
     <ClInclude Include="knight.h" />
+    <ClInclude Include="magic.h" />
     <ClInclude Include="pawn.h" />
     <ClInclude Include="piece.h" />
     <ClInclude Include="queen.h" />

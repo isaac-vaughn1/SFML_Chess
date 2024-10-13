@@ -4,7 +4,7 @@ Pawn::Pawn() : Piece(color) {
 
 }
 
-Bitboard Pawn::generatemoves(Bitboard& allySquares, Bitboard& enemySquares, int pieceIndex) {  // still needs edge case handling (pawn reaches other side, board wrapping, etc.)
+Bitboard Pawn::generate_moves(Bitboard& allySquares, Bitboard& enemySquares, int pieceIndex) {  // still needs edge case handling (pawn reaches other side, board wrapping, etc.)
 	Bitboard location = (1ULL << pieceIndex);
 	Bitboard startingRank = this->color == WHITE ? 0x00FF000000000000ULL : 0x000000000000FF00ULL;
 	Bitboard forward = 0;
@@ -12,7 +12,7 @@ Bitboard Pawn::generatemoves(Bitboard& allySquares, Bitboard& enemySquares, int 
 	Bitboard captures = 0;
 	Bitboard moves = 0;
 
-	forward = this->color == WHITE ? (location >> 8) : (location << 8);  // shift piece forward one spac; direction depends on color
+	forward = this->color == WHITE ? (location >> 8) : (location << 8);  // shift piece forward one space direction depends on color
 
 	if ((location & startingRank) != 0)  // look for double moves if pawn is on starting rank
 		doubleForward = this->color == WHITE ? (location >> 16) : (location << 16);
