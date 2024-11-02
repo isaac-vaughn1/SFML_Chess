@@ -20,6 +20,8 @@ public:
 
 
 private:
+	GameState state;
+
 	Pawn pawn;
 	Rook rook;
 	Knight knight;
@@ -28,24 +30,8 @@ private:
 	King king;
 
 	Bitboard whitePieces;
-	Bitboard whitePawns;
-	Bitboard whiteRooks;
-	Bitboard whiteKnights;
-	Bitboard whiteBishops;
-	Bitboard whiteQueens;
-	Bitboard whiteKing;
-
 	Bitboard blackPieces;
-	Bitboard blackPawns;
-	Bitboard blackRooks;
-	Bitboard blackKnights;
-	Bitboard blackBishops;
-	Bitboard blackQueens;
-	Bitboard blackKing;
-
 	Bitboard allPieces;
-
-	Bitboard boards[12];
 
 	Color playerTurn;
 	enum ClickState { NONE, FIRST_CLICK };

@@ -15,3 +15,11 @@ Bitboard King::generate_moves(Bitboard& allySquares, Bitboard& enemySquares, int
 
 	return moves;
 }
+
+bool King::in_checkmate() {
+	return false;
+}
+
+bool King::in_check(Bitboard& kingLocation) {
+	return false;
+}
