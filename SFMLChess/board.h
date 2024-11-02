@@ -64,6 +64,7 @@ private:
 	Piece* find_piece_type(int index);
 	void shift_bitboard(Bitboard& piece, int oldIndex, int newIndex);
 	void move_sprite(std::pair<int, int> oldCoords, std::pair<int, int> newCoords);
+	void capture_piece(int captureIndex);
 };
 
 #endif // BOARD_H

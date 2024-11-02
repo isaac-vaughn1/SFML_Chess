@@ -100,8 +100,8 @@ void Board::handle_click(sf::Vector2i clickCoords) {
 
 			// bitboard and sprite shifts if we have a valid move
 			if (move_is_valid(potentialMoves, newIndex)) {
-				shift_bitboard(pieceBoard, oldIndex, newIndex);
 				move_sprite(std::make_pair(firstClick.first, firstClick.second), std::make_pair(clickCoords.x, clickCoords.y));
+				shift_bitboard(pieceBoard, oldIndex, newIndex);
 			}
 		}
 	}
@@ -110,7 +110,7 @@ void Board::handle_click(sf::Vector2i clickCoords) {
 }
 
 int Board::coords_to_bit_index(std::pair<int, int> coords) {
-	// we do y * 8 + x instead of  x * 8 + y because of the way we generated the board (0,0 is the top left instead of bottom left and now we're in too deep)
+	// we do y * 8 + x instead of  x * 8 + y because of the way we generated the board (0,0 is the top left instead of bottom left and now we're in too deep to make the change)
 	return coords.second * 8 + coords.first;
 }
 
@@ -207,15 +207,36 @@ void Board::move_sprite(std::pair<int, int> oldCoords, std::pair<int, int> newCo
 
 	int newX = newCoords.first / squareSize;
 	int newY = newCoords.second / squareSize;
+	int captureIndex = coords_to_bit_index(std::make_pair(newX, newY));
 
 	for (auto& piece : pieces) {  // search all sprites for the one containing the old coords and move it to the new coords
 		if (piece.getGlobalBounds().contains(tempX, tempY)) {
+			capture_piece(captureIndex);
 			piece.setPosition(-100, -100);
 		}
 		if (piece.getGlobalBounds().contains(oldX, oldY)) {
 			piece.setPosition(newX * squareSize, newY * squareSize);
 		}
 	}
+
+	return;
+}
+
+void Board::capture_piece(int captureIndex) {
+	Bitboard& capturedPiece = find_piece_bitboard(captureIndex);
+	Bitboard capturedSquare = (1ULL << captureIndex);
+
+	capturedPiece &= ~capturedSquare;
+
+	// update colored and all piece bitboards to remove captured piece
+	if (playerTurn == WHITE && (capturedSquare & blackPieces)) {
+		blackPieces &= ~capturedSquare;
+	}
+	else if (playerTurn == BLACK && (capturedSquare & whitePieces)) {
+		whitePieces &= ~capturedSquare;
+	}
+
+	allPieces = whitePieces | blackPieces;
 
 	return;
 }

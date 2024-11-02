@@ -2,7 +2,7 @@
 #include "common.h"
 #include "magic.h"
 
-// rook relevant occupancy bits
+// rook relevant occupancy bits needed to compute possible moves
 int rook_relevant_bits[64] = {
     12, 11, 11, 11, 11, 11, 11, 12,
     11, 10, 10, 10, 10, 10, 10, 11,
@@ -14,7 +14,7 @@ int rook_relevant_bits[64] = {
     12, 11, 11, 11, 11, 11, 11, 12
 };
 
-// bishop relevant occupancy bits
+// bishop relevant occupancy bits needed to compute possible moves
 int bishop_relevant_bits[64] = {
     6, 5, 5, 5, 5, 5, 5, 6,
     5, 5, 5, 5, 5, 5, 5, 5,
