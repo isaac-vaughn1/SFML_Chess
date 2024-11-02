@@ -1,45 +1,30 @@
 #include "window.h"
 #include "board.h"
 #include <SFML/Graphics.hpp>
-#include <iostream>
 #include <utility>
 
 
 Board::Board(sf::RenderWindow& win, std::vector<sf::Sprite>& pieces, int squareSize)
 	: squareSize(squareSize), playerTurn(WHITE), window(win), pieces(pieces), clickstate(NONE) {
-	// initialize black pieces
-	blackPawns = 0x000000000000FF00ULL;
-	blackRooks = 0x0000000000000081ULL;
-	blackKnights = 0x0000000000000042ULL;
-	blackBishops = 0x0000000000000024ULL;
-	blackQueens = 0x0000000000000008ULL;
-	blackKing = 0x0000000000000010ULL;
+
+	state = {
+		 0x000000000000FF00ULL,  // black pawns
+		 0x0000000000000081ULL,  // black rooks
+		 0x0000000000000042ULL,  // black knights
+		 0x0000000000000024ULL,  // black bishops
+		 0x0000000000000008ULL,  // black queens
+		 0x0000000000000010ULL,  // black king
+		 0x00FF000000000000ULL,  // white pawns
+		 0x8100000000000000ULL,  // white rooks
+		 0x4200000000000000ULL,  // white knights
+		 0x2400000000000000ULL,  // white bishops
+		 0x0800000000000000ULL,  // white queens
+		 0x1000000000000000ULL  // white king
+	};
+
 	blackPieces = 0x000000000000FFFFULL;
-
-	// initialize white pieces
-	whitePawns = 0x00FF000000000000ULL;
-	whiteRooks = 0x8100000000000000ULL;
-	whiteKnights = 0x4200000000000000ULL;
-	whiteBishops = 0x2400000000000000ULL;
-	whiteQueens = 0x0800000000000000ULL;
-	whiteKing = 0x1000000000000000ULL;
 	whitePieces = 0xFFFF000000000000ULL;
-
 	allPieces = 0xFFFF00000000FFFFULL;
-
-	// fill the boards array
-	boards[0] = whitePawns;
-	boards[1] = whiteRooks;
-	boards[2] = whiteKnights;
-	boards[3] = whiteBishops;
-	boards[4] = whiteQueens;
-	boards[5] = whiteKing;
-	boards[6] = blackPawns;
-	boards[7] = blackRooks;
-	boards[8] = blackKnights;
-	boards[9] = blackBishops;
-	boards[10] = blackQueens;
-	boards[11] = blackKing;
 }
 
 void Board::update() {
@@ -140,10 +125,19 @@ bool Board::move_is_valid(Bitboard moves, int moveIndex) {
 Bitboard& Board::find_piece_bitboard(int index) {
 	Bitboard location = (1ULL << index);  // convert the old bit index into a bitboard with only that index filled
 
-	for (Bitboard& board : boards) {  // loop through all of the piece bitboards looking for one containing the index
-		if ((board & location) != 0)
-			return board;
-	}
+	// Check each piece type in the state struct
+	if (state.whitePawns & location) return state.whitePawns;
+	if (state.blackPawns & location) return state.blackPawns;
+	if (state.whiteKnights & location) return state.whiteKnights;
+	if (state.blackKnights & location) return state.blackKnights;
+	if (state.whiteRooks & location) return state.whiteRooks;
+	if (state.blackRooks & location) return state.blackRooks;
+	if (state.whiteBishops & location) return state.whiteBishops;
+	if (state.blackBishops & location) return state.blackBishops;
+	if (state.whiteQueens & location) return state.whiteQueens;
+	if (state.blackQueens & location) return state.blackQueens;
+	if (state.whiteKing & location) return state.whiteKing;
+	if (state.blackKing & location) return state.blackKing;
 
 	throw std::runtime_error("Piece not found at the specified index!");
 }
@@ -151,22 +145,23 @@ Bitboard& Board::find_piece_bitboard(int index) {
 Piece* Board::find_piece_type(int index) {
 	Bitboard location = (1ULL << index);
 
-	if ((boards[0] & location) != 0 || (boards[6] & location) != 0) {
+	// return piece type pointer at location
+	if ((state.whitePawns & location) != 0 || (state.blackPawns & location) != 0) {
 		return &pawn;
 	}
-	else if ((boards[1] & location) != 0 || (boards[7] & location) != 0) {
+	else if ((state.whiteRooks & location) != 0 || (state.blackRooks & location) != 0) {
 		return &rook;
 	}
-	else if ((boards[2] & location) != 0 || (boards[8] & location) != 0) {
+	else if ((state.whiteKnights & location) != 0 || (state.blackKnights & location) != 0) {
 		return &knight;
 	}
-	else if ((boards[3] & location) != 0 || (boards[9] & location) != 0) {
+	else if ((state.whiteBishops & location) != 0 || (state.blackBishops & location) != 0) {
 		return &bishop;
 	}
-	else if ((boards[4] & location) != 0 || (boards[10] & location) != 0) {
+	else if ((state.whiteQueens & location) != 0 || (state.blackQueens & location) != 0) {
 		return &queen;
 	}
-	else if ((boards[5] & location) != 0 || (boards[11] & location) != 0) {
+	else if ((state.whiteKing & location) != 0 || (state.blackKing & location) != 0) {
 		return &king;
 	}
 

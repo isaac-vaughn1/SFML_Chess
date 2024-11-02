@@ -9,6 +9,10 @@ public:
     King();
 
     Bitboard generate_moves(Bitboard& allySquares, Bitboard& enemySquares, int pieceIndex) override;
+
+private:
+    bool in_checkmate();
+    bool in_check(Bitboard& kingLocation);
 };
 
 #endif  // KING_H
